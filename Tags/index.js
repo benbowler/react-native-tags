@@ -52,9 +52,10 @@ class Tags extends React.Component {
     }
   };
 
+  // Automatically add tag on blur
   onBlur = (e) => {
-    if (e.nativeEvent.text + ",") {
-      this.onChangeText(e.nativeEvent.text);
+    if (e.nativeEvent.text) {
+      this.onChangeText(e.nativeEvent.text + this.props.createTagOnString[0]);
     }
   };
 
