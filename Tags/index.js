@@ -36,6 +36,7 @@ class Tags extends React.Component {
   };
 
   onChangeText = (text) => {
+    // text = text.trim();
     if (text.length === 0) {
       this.showLastTag();
     } else if (
@@ -53,18 +54,25 @@ class Tags extends React.Component {
   };
 
   // Automatically add tag on blur
+  // Make sure to disable blur on submit
   onBlur = (e) => {
     if (!this.props.createTagOnBlur) {
       return;
     }
-    this.addTag(this.state.text);
+    let text = this.state.text.trim();
+    if (text !== "") {
+      this.addTag(text);
+    }
   };
 
   onSubmitEditing = () => {
     if (!this.props.createTagOnReturn) {
       return;
     }
-    this.addTag(this.state.text);
+    let text = this.state.text.trim();
+    if (text !== "") {
+      this.addTag(text);
+    }
   };
 
   render() {
@@ -118,7 +126,9 @@ class Tags extends React.Component {
           <Input
             value={this.state.text}
             onChangeText={this.onChangeText}
-            onBlur={this.onBlur}
+            onBlur={() => {
+              this.onBlur();
+            }}
             onSubmitEditing={this.onSubmitEditing}
             {...this.props}
           />

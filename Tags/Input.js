@@ -13,7 +13,7 @@ const Input = (props) => {
     inputContainerStyle,
     textInputProps,
   } = props;
-
+  console.log("input");
   return (
     <View style={[styles.textInputContainer, inputContainerStyle]}>
       <TextInput
@@ -21,7 +21,11 @@ const Input = (props) => {
         style={[styles.textInput, inputStyle]}
         value={value}
         onChangeText={onChangeText}
-        onBlur={onBlur}
+        // onBlur={onBlur}
+        onBlur={() => {
+          console.log("blurr blur");
+          onBlur();
+        }}
         onSubmitEditing={onSubmitEditing}
         underlineColorAndroid="transparent"
       />
