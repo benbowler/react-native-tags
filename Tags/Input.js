@@ -4,14 +4,14 @@ import { View, TextInput } from "react-native";
 import styles from "./styles";
 
 const Input = (props) => {
-
   const {
     value,
     onChangeText,
+    onBlur,
     onSubmitEditing,
     inputStyle,
     inputContainerStyle,
-    textInputProps
+    textInputProps,
   } = props;
 
   return (
@@ -26,8 +26,7 @@ const Input = (props) => {
       />
     </View>
   );
-  
 };
 
-export {Input};
+export { Input };
 export default Input;

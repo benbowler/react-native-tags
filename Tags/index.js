@@ -7,48 +7,54 @@ import Input from "./Input";
 import styles from "./styles";
 
 class Tags extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       tags: props.initialTags,
-      text: props.initialText
+      text: props.initialText,
     };
-  };
+  }
 
   showLastTag = () => {
-    this.setState(state =>
-      ({
+    this.setState(
+      (state) => ({
         tags: state.tags.slice(0, -1),
-        text: state.tags.slice(-1)[0] || " "
-      }),
-      () =>
-        this.props.onChangeTags && this.props.onChangeTags(this.state.tags)
-    );
-  };
-
-  addTag = text => {
-    this.setState(state =>
-      ({
-        tags: [...state.tags, text.trim()],
-        text: " "
+        text: state.tags.slice(-1)[0] || " ",
       }),
       () => this.props.onChangeTags && this.props.onChangeTags(this.state.tags)
     );
   };
 
-  onChangeText = text => {
+  addTag = (text) => {
+    this.setState(
+      (state) => ({
+        tags: [...state.tags, text.trim()],
+        text: " ",
+      }),
+      () => this.props.onChangeTags && this.props.onChangeTags(this.state.tags)
+    );
+  };
+
+  onChangeText = (text) => {
     if (text.length === 0) {
       this.showLastTag();
     } else if (
       text.length > 1 &&
       this.props.createTagOnString.includes(text.slice(-1)) &&
-      !text.match(new RegExp(`^[${this.props.createTagOnString.join("")}]+$`, 'g')) &&
+      !text.match(
+        new RegExp(`^[${this.props.createTagOnString.join("")}]+$`, "g")
+      ) &&
       !(this.state.tags.indexOf(text.slice(0, -1).trim()) > -1)
     ) {
       this.addTag(text.slice(0, -1));
     } else {
       this.setState({ text });
+    }
+  };
+
+  onBlur = (e) => {
+    if (e.nativeEvent.text + ",") {
+      this.onChangeText(e.nativeEvent.text);
     }
   };
 
@@ -60,7 +66,6 @@ class Tags extends React.Component {
   };
 
   render() {
-
     const {
       containerStyle,
       style,
@@ -70,27 +75,25 @@ class Tags extends React.Component {
       tagTextStyle,
       deleteTagOnPress,
       onTagPress,
-      renderTag
+      renderTag,
     } = this.props;
 
     return (
       <View style={[styles.container, containerStyle, style]}>
-
         {this.state.tags.map((tag, index) => {
-
           const tagProps = {
             tag,
             index,
             deleteTagOnPress,
-            onPress: event => {
+            onPress: (event) => {
               event.persist();
               if (deleteTagOnPress && !readonly) {
-                this.setState(state =>
-                  ({
+                this.setState(
+                  (state) => ({
                     tags: [
                       ...state.tags.slice(0, index),
-                      ...state.tags.slice(index + 1)
-                    ]
+                      ...state.tags.slice(index + 1),
+                    ],
                   }),
                   () => {
                     this.props.onChangeTags &&
@@ -103,27 +106,24 @@ class Tags extends React.Component {
               }
             },
             tagContainerStyle,
-            tagTextStyle
+            tagTextStyle,
           };
 
           return renderTag(tagProps);
         })}
 
-        {!readonly 
-          && maxNumberOfTags > this.state.tags.length 
-          && 
-            <Input 
-              value={this.state.text}
-              onChangeText={this.onChangeText} 
-              onSubmitEditing={this.onSubmitEditing}
-              {...this.props}
-            />
-        }
-
+        {!readonly && maxNumberOfTags > this.state.tags.length && (
+          <Input
+            value={this.state.text}
+            onChangeText={this.onChangeText}
+            onBlur={this.onBlur}
+            onSubmitEditing={this.onSubmitEditing}
+            {...this.props}
+          />
+        )}
       </View>
     );
-  };
-
+  }
 }
 
 Tags.defaultProps = {
@@ -136,7 +136,7 @@ Tags.defaultProps = {
   maxNumberOfTags: Number.POSITIVE_INFINITY,
   renderTag: ({ tag, index, ...rest }) => (
     <Tag key={`${tag}-${index}`} label={tag} {...rest} />
-  )
+  ),
 };
 
 Tags.propTypes = {
@@ -156,7 +156,7 @@ Tags.propTypes = {
   inputStyle: PropTypes.any,
   tagContainerStyle: PropTypes.any,
   tagTextStyle: PropTypes.any,
-  textInputProps: PropTypes.object
+  textInputProps: PropTypes.object,
 };
 
 export { Tags };
