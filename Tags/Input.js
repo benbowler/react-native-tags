@@ -21,6 +21,7 @@ const Input = (props) => {
         style={[styles.textInput, inputStyle]}
         value={value}
         onChangeText={onChangeText}
+        onBlur={onBlur}
         onSubmitEditing={onSubmitEditing}
         underlineColorAndroid="transparent"
       />

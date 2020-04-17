@@ -54,9 +54,10 @@ class Tags extends React.Component {
 
   // Automatically add tag on blur
   onBlur = (e) => {
-    if (e.nativeEvent.text) {
-      this.onChangeText(e.nativeEvent.text + this.props.createTagOnString[0]);
+    if (!this.props.createTagOnBlur) {
+      return;
     }
+    this.addTag(this.state.text);
   };
 
   onSubmitEditing = () => {
@@ -132,6 +133,7 @@ Tags.defaultProps = {
   initialText: " ",
   createTagOnString: [",", " "],
   createTagOnReturn: false,
+  createTagOnBlur: false,
   readonly: false,
   deleteTagOnPress: true,
   maxNumberOfTags: Number.POSITIVE_INFINITY,
@@ -145,6 +147,7 @@ Tags.propTypes = {
   initialTags: PropTypes.arrayOf(PropTypes.string),
   createTagOnString: PropTypes.array,
   createTagOnReturn: PropTypes.bool,
+  createTagOnBlur: PropTypes.bool,
   onChangeTags: PropTypes.func,
   readonly: PropTypes.bool,
   maxNumberOfTags: PropTypes.number,
